@@ -23,7 +23,12 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							""
+							"pm.test(\"Status code should be 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Status code name should have an OK string\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -33,11 +38,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/todo",
+					"raw": "https://demo.fusio-project.org/index.php/todo",
+					"protocol": "https",
 					"host": [
-						"{{baseUrl}}"
+						"demo",
+						"fusio-project",
+						"org"
 					],
 					"path": [
+						"index.php",
 						"todo"
 					]
 				}
@@ -115,6 +124,22 @@
 		},
 		{
 			"name": "Get entry per ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code should be 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"pm.test(\"Status code name should have an Not Found string\", function () {\r",
+							"    pm.response.to.have.status(\"Not Found\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -225,7 +250,7 @@
 							"const OrderId = pm.response.json();\r",
 							"\r",
 							"console.log(OrderId.orderId);\r",
-							"pm.globals.set(\"OrderId\", OrderId.orderId);\r",
+							"pm.environment.set(\"orderId\", OrderId.orderId);\r",
 							""
 						],
 						"type": "text/javascript"
@@ -238,7 +263,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "{{bookid}}",
+							"value": "0341f637dd074af9c03385e1898c766b6fb04eb5263cce0ddb4b2231a4f9aa65",
 							"type": "string"
 						}
 					]
@@ -255,12 +280,9 @@
 					}
 				},
 				"url": {
-					"raw": "https://simple-books-api.glitch.me/orders",
-					"protocol": "https",
+					"raw": "{{baseUrlbooks}}/orders",
 					"host": [
-						"simple-books-api",
-						"glitch",
-						"me"
+						"{{baseUrlbooks}}"
 					],
 					"path": [
 						"orders"
@@ -275,14 +297,14 @@
 				{
 					"listen": "test",
 					"script": {
-						"type": "text/javascript",
 						"exec": [
 							"const OrderId = pm.response.json();\r",
 							"\r",
 							"console.log(OrderId.orderId);\r",
 							"pm.globals.set(\"OrderId\", OrderId.orderId);\r",
 							""
-						]
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -292,7 +314,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "03c5abfe090876ab74a2a2ac4c079174a35fd88c9b88cd2164ff4b9d56c31d6c",
+							"value": "0341f637dd074af9c03385e1898c766b6fb04eb5263cce0ddb4b2231a4f9aa65",
 							"type": "string"
 						}
 					]
@@ -309,12 +331,9 @@
 					}
 				},
 				"url": {
-					"raw": "https://simple-books-api.glitch.me/orders",
-					"protocol": "https",
+					"raw": "{{baseUrlbooks}}/orders",
 					"host": [
-						"simple-books-api",
-						"glitch",
-						"me"
+						"{{baseUrlbooks}}"
 					],
 					"path": [
 						"orders"
@@ -330,7 +349,12 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							""
+							"pm.test(\"Status code should be 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Status code name should have an OK string\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -345,7 +369,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "03c5abfe090876ab74a2a2ac4c079174a35fd88c9b88cd2164ff4b9d56c31d6c",
+							"value": "0341f637dd074af9c03385e1898c766b6fb04eb5263cce0ddb4b2231a4f9aa65",
 							"type": "string"
 						}
 					]
@@ -384,7 +408,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "03c5abfe090876ab74a2a2ac4c079174a35fd88c9b88cd2164ff4b9d56c31d6c",
+							"value": "0341f637dd074af9c03385e1898c766b6fb04eb5263cce0ddb4b2231a4f9aa65",
 							"type": "string"
 						}
 					]
@@ -401,17 +425,18 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrlbooks}}/:orderId",
+					"raw": "{{baseUrlbooks}}/orders/:orderid",
 					"host": [
 						"{{baseUrlbooks}}"
 					],
 					"path": [
-						":orderId"
+						"orders",
+						":orderid"
 					],
 					"variable": [
 						{
-							"key": "orderId",
-							"value": "bl8ZbxUCq59bH8DyYWvjo"
+							"key": "orderid",
+							"value": "{{orderId}}"
 						}
 					]
 				}
@@ -424,16 +449,10 @@
 				{
 					"listen": "test",
 					"script": {
-						"type": "text/javascript",
 						"exec": [
-							"pm.test(\"Status code is 204\", function () {\r",
-							"    pm.response.to.have.status(204);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Status code name has string OK\", function () {\r",
-							"    pm.response.to.have.status(\"No Content\");\r",
-							"});"
-						]
+							""
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -443,7 +462,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "03c5abfe090876ab74a2a2ac4c079174a35fd88c9b88cd2164ff4b9d56c31d6c",
+							"value": "0341f637dd074af9c03385e1898c766b6fb04eb5263cce0ddb4b2231a4f9aa65",
 							"type": "string"
 						}
 					]
@@ -460,21 +479,18 @@
 					}
 				},
 				"url": {
-					"raw": "https://simple-books-api.glitch.me/orders/:orderId",
-					"protocol": "https",
+					"raw": "{{baseUrlbooks}}/orders/:orderid",
 					"host": [
-						"simple-books-api",
-						"glitch",
-						"me"
+						"{{baseUrlbooks}}"
 					],
 					"path": [
 						"orders",
-						":orderId"
+						":orderid"
 					],
 					"variable": [
 						{
-							"key": "orderId",
-							"value": "bl8ZbxUCq59bH8DyYWvjo"
+							"key": "orderid",
+							"value": "{{orderId}}"
 						}
 					]
 				}
